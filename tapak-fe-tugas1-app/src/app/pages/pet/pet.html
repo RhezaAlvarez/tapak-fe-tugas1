@@ -1,0 +1,58 @@
+<div class="container">
+  <mat-toolbar>
+    <span>Pet Store</span>
+    <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-toolbar>
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="status" name="status" (selectionChange)="getPets()">
+        @for (item of statusList; track item) {
+        <mat-option [value]="item">{{item}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </mat-toolbar>
+
+  @if (loadingGetAll) {
+  <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <mat-spinner></mat-spinner>
+  </div>
+  }
+  @else {
+  <mat-grid-list cols="5" gutterSize="10px">
+    @for (item of pets; track $index) {
+    <mat-grid-tile>
+      <mat-card class="example-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{item.name}}</mat-card-title>
+          @if(item.category && item.category.length > 0){
+          <mat-card-subtitle>{{item.category.join(',')}}</mat-card-subtitle>
+          }
+        </mat-card-header>
+        @if (item.photoUrls && item.photoUrls.length > 0) {
+        <img mat-card-image src="{{item.photoUrls[0]}}" alt="{{item.name}}-img">
+        }
+
+        <mat-card-content>
+          <mat-chip-set aria-label="Fish selection">
+            @for (tag of item.tags; track $index) {
+            <mat-chip>{{tag.name}}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-content>
+        <mat-card-actions>
+          <button matButton>Edit</button>
+          <button matButton (click)="handleClickDelete(item)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+    }
+  </mat-grid-list>
+  }
+
+
+</div>
