@@ -1,22 +1,20 @@
-<div>
-  <h1>Login</h1>
-  <form (submit)="login()">
-    <p>Username</p>
-    <input type="text" [(ngModel)]="username" name="username">
-    <p>Password</p>
-    <input type="password" [(ngModel)]="password" name="password">
-    <button type="submit">Login</button>
+<div class="container">
+  <div class="form">
+    <h1>Login</h1>
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="username" name="username" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="password" name="password" type="password" />
+    </mat-form-field>
+    <div style="width: 100%;">
+      <button class="submitButton" type="submit" (click)="handleLogin()"
+        [disabled]="username === '' || password === ''">
+        Login</button>
+    </div>
     <a routerLink="/register">Register</a>
-  </form>
-
-  <button (click)="handleOpenModalCreate()">Create</button>
-  <button (click)="handleOpenModalEdit()">Edit</button>
-
-  <app-modal [(openModal)]="openModalCreate" title="Create">
-    Content Create
-  </app-modal>
-
-  <app-modal [(openModal)]="openModalEdit">
-    Content Edit
-  </app-modal>
+  </div>
+  <p style="color: red;">{{errorMessage}}</p>
 </div>

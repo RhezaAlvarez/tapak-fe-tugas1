@@ -8,6 +8,12 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.modal-header {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+}
+
 .modal-content {
   background: white;
   margin: 10% auto;
@@ -16,7 +22,7 @@
   border-radius: 6px;
 }
 
-.close {
+.close.btn {
   float: right;
   font-size: 24px;
   cursor: pointer;

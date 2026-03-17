@@ -9,6 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class Modal {
   @Input() openModal: boolean = false;
   @Input() title: string = "";
+  @Input() description: string = "";
 
   @Output() openModalChange = new EventEmitter<boolean>();
 

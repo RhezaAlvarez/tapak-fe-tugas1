@@ -57,3 +57,38 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+Angular adalah framework frontend berbasis TypeScript yang digunakan untuk membangun aplikasi web modern (SPA – Single Page Application).
+
+A. Kelebihan Menggunakan Angular
+1.Full Framework
+Angular sudah menyediakan banyak fitur bawaan seperti routing, HTTP client, dan form handling sehingga tidak membutuhkan banyak library tambahan.
+2.Struktur yang Jelas
+Cocok untuk aplikasi skala besar karena memiliki pola yang konsisten (component, service, module).
+3.Dependency Injection
+Memudahkan pengelolaan service seperti API call agar reusable dan clean.
+4.Two-way Data Binding
+Mempermudah sinkronisasi antara UI dan state.
+5.TypeScript Support
+Membantu mengurangi bug dengan type safety dan meningkatkan maintainability.
+
+B. Kekurangan Angular
+1.Learning Curve Tinggi
+Banyak konsep yang harus dipahami seperti RxJS, lifecycle, dan dependency injection.
+2.Boilerplate Banyak
+Membutuhkan lebih banyak setup dibanding framework lain.
+3.Bundle Size Lebih Besar
+Bisa mempengaruhi performa jika tidak dioptimasi.
+
+C. Setup env
+0.Pastikan Angular CLI sudah terinstall pada device
+npm install -g @angular/cli
+1.Clone Repo
+git clone https://github.com/username/repository-name.git
+cd repository-name
+2.Install Dependencies
+Install Dependencies
+3.Jalankan Aplikasi
+Jalankan Aplikasi
+4.Akses di Browser
+(http://localhost:4200)

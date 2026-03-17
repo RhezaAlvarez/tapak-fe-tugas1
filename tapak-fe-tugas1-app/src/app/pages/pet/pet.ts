@@ -9,6 +9,10 @@ import { PetService } from '../../services/pet/pet-service';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PetFormModal } from './components/formModal/pet-form-modal/pet-form-modal';
+import { Modal } from '../../components/modal/modal';
+import { MainService } from '../../services/main-service';
+import { Navbar } from "../../components/navbar/navbar/navbar";
 
 @Component({
   selector: 'app-pet',
@@ -21,7 +25,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatSelectModule,
     FormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    PetFormModal,
+    Modal,
+    Navbar
   ],
   templateUrl: './pet.html',
   styleUrl: './pet.css',
@@ -34,9 +41,13 @@ export class Pet implements OnInit {
   status: string = "available";
   loadingGetAll: boolean = false;
 
+  modalAddOpen: boolean = false;
+  modalEditOpen: boolean = false;
   modalDeleteOpen: boolean = false;
 
-  constructor(private readonly petService: PetService, private readonly cd: ChangeDetectorRef) { }
+  isAdmin = localStorage.getItem('role') === "admin";
+
+  constructor(private readonly petService: PetService, private readonly cd: ChangeDetectorRef, private readonly mainService: MainService) { }
 
   ngOnInit(): void {
     this.getPets();
@@ -47,6 +58,7 @@ export class Pet implements OnInit {
     this.petService.getPetByStatus(this.status).subscribe({
       next: (res) => {
         this.pets = res;
+        this.loadingGetAll = false;
         this.cd.detectChanges();
       },
       complete: () => {
@@ -55,8 +67,36 @@ export class Pet implements OnInit {
     })
   }
 
+  addPet(reqBody: any) {
+    this.petService.postPet(reqBody).subscribe({
+      next: () => {
+        this.getPets();
+      },
+      error: (err) => {
+        console.log('Error Add: ', err)
+      },
+      complete: () => {
+        this.modalAddOpen = false;
+      }
+    })
+  }
+
+  editPet(reqBody: any) {
+    this.petService.putPet(reqBody).subscribe({
+      next: () => {
+        this.getPets();
+      },
+      error: (err) => {
+        console.log('Error Edit: ', err)
+      },
+      complete: () => {
+        this.modalEditOpen = false;
+      }
+    })
+  }
+
   deletePet() {
-    this.petService.deletePet(this.status).subscribe({
+    this.petService.deletePet(this.selectedPet.id).subscribe({
       next: () => {
         this.getPets();
       },
@@ -67,8 +107,18 @@ export class Pet implements OnInit {
     })
   }
 
+  handleClickAdd() {
+    this.selectedPet = {};
+    this.modalAddOpen = true;
+  }
+
+  handleClickEdit(selectedPet: any) {
+    this.selectedPet = selectedPet;
+    this.modalEditOpen = true;
+  }
+
   handleClickDelete(selectedPet: any) {
-    this.selectedPet(selectedPet);
+    this.selectedPet = selectedPet;
     this.modalDeleteOpen = true;
   }
 }

@@ -13,8 +13,6 @@ mat-grid-list {
   gap: "5px";
 }
 
-mat-grid-tile {}
-
 .example-card {
   width: 100%;
   height: 100%;
@@ -28,6 +26,12 @@ mat-card-content {
 }
 
 mat-card img {
-  height: 200px;
+  min-height: 100px;
+  max-height: 200px;
   background-color: rgb(194, 194, 194);
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
 }

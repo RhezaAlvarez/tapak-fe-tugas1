@@ -2,31 +2,32 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../services/user/user-service';
-import { Modal } from "../../../components/modal/modal/modal";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, RouterLink, Modal],
+  imports: [FormsModule, RouterLink, MatFormFieldModule, MatInputModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
-
-  openModalCreate: boolean = false;
-  openModalEdit: boolean = false;
-
   username: string = '';
   password: string = '';
+  errorMessage: string = '';
 
   constructor(
     private readonly router: Router, private readonly userService: UserService) { }
 
   login() {
-    this.userService.login(this.username, this.password)
+    this.userService.login(this.username.toLocaleLowerCase(), this.password)
       .subscribe({
         next: () => {
+          const isAdmin = this.username.toLowerCase().includes('admin');
           const expiresAfter = new Date();
           expiresAfter.setHours(expiresAfter.getHours() + 1);
+          localStorage.setItem('role', isAdmin ? 'admin' : 'user');
+          localStorage.setItem('username', this.username);
           localStorage.setItem('expiresAfter', String(expiresAfter));
           this.router.navigate(['/pet']);
         },
@@ -37,13 +38,15 @@ export class Login {
   }
 
   getUser() {
-    this.userService.getUser(this.username)
+    this.userService.getUser(this.username.toLocaleLowerCase())
       .subscribe({
         next: () => {
           this.login();
         },
         error: (err) => {
-          console.log('Error: ', err)
+          if (err.status === 404) {
+            this.errorMessage = "Username dengan nama tersebut tidak ditemukan."
+          }
         }
       });
   }
@@ -54,13 +57,5 @@ export class Login {
 
   register() {
     this.router.navigate(['/register']);
-  }
-
-  handleOpenModalCreate() {
-    this.openModalCreate = !this.openModalCreate;
-  }
-
-  handleOpenModalEdit() {
-    this.openModalEdit = !this.openModalEdit;
   }
 }

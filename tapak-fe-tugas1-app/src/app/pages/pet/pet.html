@@ -1,10 +1,5 @@
 <div class="container">
-  <mat-toolbar>
-    <span>Pet Store</span>
-    <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>logout</mat-icon>
-    </button>
-  </mat-toolbar>
+  <app-navbar></app-navbar>
 
   <mat-toolbar>
     <mat-form-field>
@@ -15,6 +10,7 @@
         }
       </mat-select>
     </mat-form-field>
+    @if (isAdmin) {<button matButton (click)="handleClickAdd()">Add</button>}
   </mat-toolbar>
 
   @if (loadingGetAll) {
@@ -29,8 +25,8 @@
       <mat-card class="example-card" appearance="outlined">
         <mat-card-header>
           <mat-card-title>{{item.name}}</mat-card-title>
-          @if(item.category && item.category.length > 0){
-          <mat-card-subtitle>{{item.category.join(',')}}</mat-card-subtitle>
+          @if(item.category){
+          <mat-card-subtitle>{{item.category.name}}</mat-card-subtitle>
           }
         </mat-card-header>
         @if (item.photoUrls && item.photoUrls.length > 0) {
@@ -45,8 +41,8 @@
           </mat-chip-set>
         </mat-card-content>
         <mat-card-actions>
-          <button matButton>Edit</button>
-          <button matButton (click)="handleClickDelete(item)">Delete</button>
+          @if (isAdmin) {<button matButton (click)="handleClickEdit(item)">Edit</button>}
+          @if (isAdmin) {<button matButton (click)="handleClickDelete(item)">Delete</button>}
         </mat-card-actions>
       </mat-card>
     </mat-grid-tile>
@@ -54,5 +50,24 @@
   </mat-grid-list>
   }
 
+  @if (modalAddOpen) {
+  <app-pet-form-modal [value]="selectedPet" (onClose)="modalAddOpen = false" (onSubmit)="addPet($event)">
+  </app-pet-form-modal>
+  }
+  @if (modalEditOpen) {
+  <app-pet-form-modal [value]="selectedPet" (onClose)="modalEditOpen = false" (onSubmit)="editPet($event)">
+  </app-pet-form-modal>
+  }
+  @if(modalDeleteOpen) {
+  <app-modal [(openModal)]="modalDeleteOpen" title="Delete confirmation"
+    [description]="'Are sure want to delete ' + selectedPet.name + '?'">
+    <div class="actions">
+      <button mat-button (click)="modalDeleteOpen = false">Cancel</button>
+      <button mat-raised-button color="primary" (click)="deletePet()">
+        Confirm
+      </button>
+    </div>
+  </app-modal>
+  }
 
 </div>

@@ -1,0 +1,58 @@
+<div class="modal-container">
+  <div>
+    <h2>{{ form.id ? 'Edit Pet' : 'Add Pet' }}</h2>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="form.name" name="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="form.status" name="status">
+        @for (status of statusOptions; track status) {
+        <mat-option [value]="status">{{status}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <p>Category</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Category Name</mat-label>
+      <input matInput [ngModel]="form.category?.name" (ngModelChange)="updateCategoryName($event)"
+        name="categoryName" />
+    </mat-form-field>
+
+    <p>Photo URLs</p>
+    @for (url of form.photoUrls; let i = $index; track i) {
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Photo URL</mat-label>
+        <input matInput [(ngModel)]="form.photoUrls[i]" name="photo{{i}}" />
+      </mat-form-field>
+
+      <button mat-button color="warn" (click)="removePhotoUrl(i)">X</button>
+    </div>
+    }
+    <button mat-button (click)="addPhotoUrl()">+ Add Photo</button>
+
+    <p>Tags</p>
+    @for (tag of form.tags; let i = $index; track i) {
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Tag Name</mat-label>
+        <input matInput [ngModel]="tag.name" (ngModelChange)="updateTagName(i, $event)" name="tag{{i}}" />
+      </mat-form-field>
+      <button mat-button color="warn" (click)="removeTag(i)">X</button>
+    </div>
+    }
+    <button mat-button (click)="addTag()">+ Add Tag</button>
+
+    <div class="actions">
+      <button mat-button (click)="handleClose()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="handleSubmit()">
+        Submit
+      </button>
+    </div>
+  </div>
+</div>
