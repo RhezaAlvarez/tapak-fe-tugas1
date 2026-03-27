@@ -92,3 +92,6 @@ Install Dependencies
 Jalankan Aplikasi
 4.Akses di Browser
 (http://localhost:4200)
+
+LINK VIDEO:
+https://drive.google.com/file/d/1T4Mv6utIMmHq9pr5mZ05HwWXiMknGEkb/view?usp=sharing
